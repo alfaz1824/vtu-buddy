@@ -1,62 +1,78 @@
+"use client";
+
 import Link from "next/link";
-import LoginButton from "@/components/LoginButton";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+
+const navLinks = [
+  {
+    label: "Home",
+    href: "/",
+  },
+  {
+    label: "Dashboard",
+    href: "/dashboard",
+  },
+
+  {
+    label: "Resources",
+    href: "/resources",
+  },
+  {
+    label: "Question Papers",
+    href: "/question-papers",
+  },
+  {
+    label: "AI Tools",
+    href: "/ai-tools",
+  },
+  {
+    label: "Placement Hub",
+    href: "/placement",
+  },
+];
 
 export default function Navbar() {
+  const pathname = usePathname();
+
   return (
-    <header className="sticky top-0 z-50 border-b bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
 
         {/* Logo */}
         <Link
           href="/"
-          className="text-3xl font-bold text-black tracking-tight"
+          className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent"
         >
           VTU Buddy
         </Link>
 
         {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-10">
-          <Link
-            href="/"
-            className="text-black font-medium hover:text-blue-600 transition-colors"
-          >
-            Home
-          </Link>
+        <nav className="hidden lg:flex items-center gap-8">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
 
-          <Link
-            href="/resources"
-            className="text-black font-medium hover:text-blue-600 transition-colors"
-          >
-            Resources
-          </Link>
-
-          <Link
-            href="/question-papers"
-            className="text-black font-medium hover:text-blue-600 transition-colors"
-          >
-            Question Papers
-          </Link>
-
-          <Link
-            href="/ai-tools"
-            className="text-black font-medium hover:text-blue-600 transition-colors"
-          >
-            AI Tools
-          </Link>
-
-          <Link
-            href="/placements"
-            className="text-black font-medium hover:text-blue-600 transition-colors"
-          >
-            Placement Hub
-          </Link>
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "font-semibold transition-colors duration-200",
+                  isActive
+                    ? "text-blue-600"
+                    : "text-foreground hover:text-blue-600"
+                )}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Login Button */}
-        <div className="flex items-center">
-          <LoginButton />
-        </div>
-
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 shadow-sm">
+          Login with Google
+        </button>
       </div>
     </header>
   );
