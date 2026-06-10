@@ -9,23 +9,13 @@ import AiFeatures from "@/components/home/AiFeatures";
 export default function Home() {
   return (
     <>
-      <Navbar />
+  <Navbar />
 
-      <main className="bg-black text-white min-h-screen">
+  <main className="min-h-screen bg-black text-white">
 
-        <Hero />
+    {/* Resource Hub Content */}
 
-        <QuickAccess />
-
-        <Stats />
-
-        <PopularSubjects />
-
-        <SurvivalKit />
-
-        <AiFeatures />
-
-      </main>
-    </>
+  </main>
+</>
   );
 }
