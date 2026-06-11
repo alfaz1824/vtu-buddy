@@ -1,12 +1,12 @@
 export default function BookmarksPreview() {
   return (
-    <div className="border rounded-xl p-6">
+    <div className="bg-white border border-zinc-200 rounded-2xl p-6 shadow-sm">
 
-      <h2 className="text-xl font-bold mb-4">
+      <h2 className="text-xl font-bold text-black mb-5">
         Bookmarks
       </h2>
 
-      <p className="text-muted-foreground">
+      <p className="text-zinc-500">
         No bookmarks yet.
       </p>
 

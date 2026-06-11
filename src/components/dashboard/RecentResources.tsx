@@ -6,17 +6,17 @@ export default function RecentResources() {
   ];
 
   return (
-    <div className="border rounded-xl p-6">
+    <div className="bg-white border border-zinc-200 rounded-2xl p-6 shadow-sm">
 
-      <h2 className="text-xl font-bold mb-4">
+      <h2 className="text-xl font-bold text-black mb-5">
         Recent Resources
       </h2>
 
-      <ul className="space-y-3">
+      <ul className="space-y-4">
         {resources.map((resource) => (
           <li
             key={resource}
-            className="border-b pb-2"
+            className="border-b border-zinc-100 pb-3 text-zinc-700"
           >
             {resource}
           </li>
