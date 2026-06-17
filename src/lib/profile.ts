@@ -1,9 +1,6 @@
 import { type User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 
-let hasWarnedAboutMissingProfilesTable = false;
-let hasWarnedAboutInvalidProfileConflict = false;
-
 function isMissingProfilesTableError(message: string) {
   const normalizedMessage = message.toLowerCase();
 
@@ -11,7 +8,7 @@ function isMissingProfilesTableError(message: string) {
     (normalizedMessage.includes("public.profiles") &&
       normalizedMessage.includes("schema cache")) ||
     normalizedMessage.includes("could not find the table") ||
-    normalizedMessage.includes("relation \"public.profiles\" does not exist")
+    normalizedMessage.includes('relation "public.profiles" does not exist')
   );
 }
 
@@ -26,38 +23,55 @@ function isInvalidProfileConflictError(message: string) {
 }
 
 export async function saveUserProfile(user: User) {
-  const { error } = await supabase.from("profiles").upsert(
-    {
-      id: user.id,
-      email: user.email,
-      full_name: user.user_metadata?.full_name ?? user.user_metadata?.name ?? null,
-      avatar_url: user.user_metadata?.avatar_url ?? user.user_metadata?.picture ?? null,
-    },
-    { onConflict: "id" }
-  );
+  const { data, error } = await supabase
+    .from("profiles")
+    .upsert(
+      {
+        id: user.id,
+        email: user.email,
+        full_name:
+          user.user_metadata?.full_name ??
+          user.user_metadata?.name ??
+          null,
+        avatar_url:
+          user.user_metadata?.avatar_url ??
+          user.user_metadata?.picture ??
+          null,
+      },
+      {
+        onConflict: "id",
+      }
+    )
+    .select();
 
   if (!error) {
-    console.info("Saved user profile:", user.email);
+    console.info("✅ Saved user profile:", user.email);
+    console.info("Returned data:", data);
     return true;
   }
 
+  // FULL DEBUG OUTPUT
+  console.error("====================================");
+  console.error("PROFILE UPSERT FAILED");
+  console.error("====================================");
+  console.error("Full error object:", error);
+  console.error("Error code:", error.code);
+  console.error("Error message:", error.message);
+  console.error("Error details:", error.details);
+  console.error("Error hint:", error.hint);
+  console.error("====================================");
+
   if (isMissingProfilesTableError(error.message)) {
-    if (!hasWarnedAboutMissingProfilesTable) {
-      console.warn(
-        "Supabase table public.profiles is missing. Run supabase/migrations/001_create_profiles.sql in your Supabase SQL Editor."
-      );
-      hasWarnedAboutMissingProfilesTable = true;
-    }
+    console.warn(
+      "Supabase table public.profiles is missing. Run supabase/migrations/001_create_profiles.sql in your Supabase SQL Editor."
+    );
     return false;
   }
 
   if (isInvalidProfileConflictError(error.message)) {
-    if (!hasWarnedAboutInvalidProfileConflict) {
-      console.warn(
-        "Supabase profile upsert needs public.profiles.id to be a primary key or unique constraint. Run supabase/migrations/001_create_profiles.sql in your Supabase SQL Editor."
-      );
-      hasWarnedAboutInvalidProfileConflict = true;
-    }
+    console.warn(
+      "Supabase profile upsert needs public.profiles.id to be a primary key or unique constraint. Run supabase/migrations/001_create_profiles.sql in your Supabase SQL Editor."
+    );
     return false;
   }
 
