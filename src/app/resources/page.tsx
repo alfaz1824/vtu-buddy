@@ -4,14 +4,18 @@ import ResourceCard from "@/components/resources/ResourceCard";
 import ResourceNavigator from "@/components/resources/ResourceNavigator";
 
 export default async function ResourcesPage() {
+
   const { data: resources, error } = await supabase
     .from("resources")
     .select("*")
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Error fetching resources:", error);
-  }
+  console.log("MESSAGE:", error.message);
+  console.log("DETAILS:", error.details);
+  console.log("HINT:", error.hint);
+  console.log("FULL:", error);
+}
 
   return (
     <>
