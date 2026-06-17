@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Clock3,
   Zap,
@@ -5,34 +7,42 @@ import {
   BookOpen,
 } from "lucide-react";
 
+import { useRouter } from "next/navigation";
+
 const kits = [
   {
     title: "Pass in 3 Hours",
     description:
       "Most important questions to clear the exam.",
     icon: Clock3,
+    route: "/resources?type=important-questions",
   },
   {
     title: "Pass in 1 Day",
     description:
       "High-priority topics and quick revision plan.",
     icon: Zap,
+    route: "/resources?type=revision-notes",
   },
   {
     title: "Score 80+",
     description:
       "Complete preparation strategy for top marks.",
     icon: Target,
+    route: "/resources?type=topper-resources",
   },
   {
     title: "Important Diagrams",
     description:
       "Frequently asked diagrams and illustrations.",
     icon: BookOpen,
+    route: "/resources?type=diagrams",
   },
 ];
 
 export default function SurvivalKit() {
+  const router = useRouter();
+
   return (
     <section className="py-24">
       <div className="max-w-7xl mx-auto px-6">
@@ -48,7 +58,19 @@ export default function SurvivalKit() {
           {kits.map((kit) => (
             <div
               key={kit.title}
-              className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 hover:border-blue-500 transition-all duration-300"
+              onClick={() => router.push(kit.route)}
+              className="
+                rounded-2xl
+                border
+                border-zinc-800
+                bg-zinc-900/50
+                p-6
+                cursor-pointer
+                hover:border-blue-500
+                hover:bg-blue-500/5
+                transition-all
+                duration-300
+              "
             >
               <kit.icon className="h-10 w-10 text-blue-500 mb-4" />
 
