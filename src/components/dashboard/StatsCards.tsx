@@ -5,26 +5,38 @@ import {
   Eye,
 } from "lucide-react";
 
-export default function StatsCards() {
+interface StatsCardsProps {
+  resources: number;
+  bookmarks: number;
+  downloads: number;
+  viewed: number;
+}
+
+export default function StatsCards({
+  resources,
+  bookmarks,
+  downloads,
+  viewed,
+}: StatsCardsProps) {
   const stats = [
     {
       title: "Resources",
-      value: "1248",
+      value: resources,
       icon: BookOpen,
     },
     {
       title: "Bookmarks",
-      value: "12",
+      value: bookmarks,
       icon: Bookmark,
     },
     {
       title: "Downloads",
-      value: "56",
+      value: downloads,
       icon: Download,
     },
     {
       title: "Viewed",
-      value: "8",
+      value: viewed,
       icon: Eye,
     },
   ];
@@ -50,7 +62,6 @@ export default function StatsCards() {
             "
           >
             <div className="flex justify-between items-center">
-
               <div>
                 <p className="text-zinc-500 text-sm">
                   {stat.title}
@@ -62,7 +73,6 @@ export default function StatsCards() {
               </div>
 
               <Icon className="h-8 w-8 text-blue-600" />
-
             </div>
           </div>
         );

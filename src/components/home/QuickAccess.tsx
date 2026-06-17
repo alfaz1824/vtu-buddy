@@ -7,7 +7,6 @@ import {
   Calculator,
   Briefcase,
 } from "lucide-react";
-
 import { useRouter } from "next/navigation";
 
 const items = [
@@ -47,31 +46,54 @@ export default function QuickAccess() {
   const router = useRouter();
 
   return (
-    <section className="py-20">
-      <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-10">
-          Everything You Need
-        </h2>
+    <section className="mt-10">
+      <h2 className="text-3xl font-bold mb-6">
+        Everything You Need
+      </h2>
 
-        <div className="grid md:grid-cols-5 gap-6">
-          {items.map((item) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        {items.map((item) => {
+          const Icon = item.icon;
+
+          return (
             <div
               key={item.title}
               onClick={() => router.push(item.href)}
-              className="rounded-2xl border p-6 hover:border-blue-500 hover:bg-blue-500/5 transition-all cursor-pointer group"
+              className="
+                rounded-2xl
+                border
+                border-zinc-200
+                bg-white
+                p-6
+                shadow-sm
+                hover:shadow-md
+                hover:border-blue-500
+                transition-all
+                cursor-pointer
+                group
+              "
             >
-              <item.icon className="h-8 w-8 mb-4 text-blue-500 group-hover:scale-110 transition-transform" />
+              <Icon
+                className="
+                  h-8
+                  w-8
+                  mb-4
+                  text-blue-600
+                  group-hover:scale-110
+                  transition-transform
+                "
+              />
 
-              <h3 className="font-semibold text-lg">
+              <h3 className="font-semibold text-lg text-black">
                 {item.title}
               </h3>
 
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-zinc-500 mt-2">
                 {item.description}
               </p>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </section>
   );

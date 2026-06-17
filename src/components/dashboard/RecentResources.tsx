@@ -1,28 +1,45 @@
-export default function RecentResources() {
-  const resources = [
-    "Data Structures Notes",
-    "DBMS Important Questions",
-    "OS Notes",
-  ];
+interface Resource {
+  id: string;
+  title: string;
+  description: string | null;
+  resource_type: string;
+}
 
+interface RecentResourcesProps {
+  resources?: Resource[];
+}
+
+export default function RecentResources({
+  resources = [],
+}: RecentResourcesProps) {
   return (
-    <div className="bg-white border border-zinc-200 rounded-2xl p-6 shadow-sm">
-
-      <h2 className="text-xl font-bold text-black mb-5">
+    <div className="bg-white rounded-2xl p-6 border border-zinc-200">
+      <h2 className="text-xl font-semibold mb-4 text-black">
         Recent Resources
       </h2>
 
-      <ul className="space-y-4">
-        {resources.map((resource) => (
-          <li
-            key={resource}
-            className="border-b border-zinc-100 pb-3 text-zinc-700"
-          >
-            {resource}
-          </li>
-        ))}
-      </ul>
+      {resources.length === 0 ? (
+        <p className="text-zinc-500">
+          No resources found.
+        </p>
+      ) : (
+        <div className="space-y-3">
+          {resources.map((resource) => (
+            <div
+              key={resource.id}
+              className="border rounded-xl p-3"
+            >
+              <h3 className="font-medium text-black">
+                {resource.title}
+              </h3>
 
+              <p className="text-sm text-zinc-500">
+                {resource.resource_type}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
