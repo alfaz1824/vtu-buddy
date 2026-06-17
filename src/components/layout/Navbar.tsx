@@ -27,8 +27,8 @@ const navLinks = [
     href: "/ai-tools",
   },
   {
-    label: "Placement Hub",
-    href: "/placement",
+    label: "CGP/SGP Calculator",
+    href: "/cgpa-calculator",
   },
 ];
 

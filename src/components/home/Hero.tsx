@@ -1,18 +1,31 @@
+"use client";
+
 import { Search, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Hero() {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = () => {
+    if (!searchQuery.trim()) return;
+
+    router.push(
+      `/resources?search=${encodeURIComponent(searchQuery)}`
+    );
+  };
+
   return (
     <section className="relative overflow-hidden">
-
       {/* Background Glow */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-blue-600/20 blur-3xl" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-28 text-center">
-
         <div className="inline-flex items-center gap-2 rounded-full border px-4 py-2 mb-6 text-sm">
           <Sparkles className="h-4 w-4" />
           AI Powered VTU Learning Platform
@@ -31,33 +44,46 @@ export default function Hero() {
           all in one platform built for VTU students.
         </p>
 
+        {/* Search */}
         <div className="mt-10 max-w-2xl mx-auto flex gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+
             <Input
               placeholder="Search subject, topic or question..."
               className="pl-10 h-12"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
             />
           </div>
 
-          <Button size="lg">
+          <Button size="lg" onClick={handleSearch}>
             Search
           </Button>
         </div>
 
+        {/* CTA Buttons */}
         <div className="mt-8 flex justify-center gap-4 flex-wrap">
-          <Button size="lg">
+          <Button
+            size="lg"
+            onClick={() => router.push("/resources")}
+          >
             Browse Resources
           </Button>
 
           <Button
-  size="lg"
-  className="bg-transparent border border-white text-white hover:bg-white hover:text-black transition-all duration-300"
->
-  Try AI Assistant
-</Button>
+            size="lg"
+            onClick={() => router.push("/ai-tools")}
+            className="bg-transparent border border-white text-white hover:bg-white hover:text-black transition-all duration-300"
+          >
+            Try AI Assistant
+          </Button>
         </div>
-
       </div>
     </section>
   );
