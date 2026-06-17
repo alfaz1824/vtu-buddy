@@ -1,20 +1,24 @@
-export default function Stats() {
-  const stats = [
+import { getHomepageStats } from "@/lib/homepage";
+
+export default async function Stats() {
+  const stats = await getHomepageStats();
+
+  const statsList = [
     {
-      value: "10K+",
-      label: "Students",
-    },
-    {
-      value: "500+",
       label: "Resources",
+      value: stats.resources,
     },
     {
-      value: "100+",
       label: "Subjects",
+      value: stats.subjects,
     },
     {
-      value: "95%",
-      label: "Success Rate",
+      label: "Branches",
+      value: stats.branches,
+    },
+    {
+      label: "Downloads",
+      value: stats.downloads,
     },
   ];
 
@@ -22,7 +26,7 @@ export default function Stats() {
     <section className="py-20 border-y">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-8 text-center">
-          {stats.map((stat) => (
+          {statsList.map((stat) => (
             <div key={stat.label}>
               <h3 className="text-4xl font-bold text-blue-500">
                 {stat.value}
