@@ -51,7 +51,7 @@ export default function ResourceFilters() {
       {/* Branch */}
       <Select
         onValueChange={(value) =>
-          updateFilter("branch", value)
+          updateFilter("branch", String(value))
         }
       >
         <SelectTrigger>
@@ -71,7 +71,7 @@ export default function ResourceFilters() {
       {/* Semester */}
       <Select
         onValueChange={(value) =>
-          updateFilter("semester", value)
+          updateFilter("semester", String(value))
         }
       >
         <SelectTrigger>
@@ -93,7 +93,7 @@ export default function ResourceFilters() {
       {/* Subject */}
       <Select
         onValueChange={(value) =>
-          updateFilter("subject", value)
+          updateFilter("subject", String(value))
         }
       >
         <SelectTrigger>

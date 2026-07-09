@@ -5,7 +5,6 @@ import {
   FileText,
   Brain,
   Calculator,
-  Briefcase,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 

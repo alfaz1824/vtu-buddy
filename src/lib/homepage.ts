@@ -1,29 +1,59 @@
 import { supabase } from "@/lib/supabase";
 
-export async function getHomepageStats() {
-  const { count: resources } = await supabase
-    .from("resources")
-    .select("*", { count: "exact", head: true });
+const fallbackStats = {
+  resources: 0,
+  subjects: 0,
+  branches: 0,
+  downloads: 0,
+};
 
-  const { data: subjectsData } = await supabase
-    .from("resources")
-    .select("subject");
+type HomepageStats = typeof fallbackStats;
+
+function withTimeout<T>(
+  promise: PromiseLike<T>,
+  timeoutMs: number,
+  fallback: T
+) {
+  return Promise.race([
+    Promise.resolve(promise),
+    new Promise<T>((resolve) => {
+      setTimeout(() => resolve(fallback), timeoutMs);
+    }),
+  ]);
+}
+
+export async function getHomepageStats() {
+  return withTimeout(loadHomepageStats(), 5000, fallbackStats);
+}
+
+async function loadHomepageStats(): Promise<HomepageStats> {
+  const [
+    { count: resources },
+    { data: subjectsData },
+    { data: branchData },
+    { data: downloadsData },
+  ] = await Promise.all([
+    supabase
+      .from("resources")
+      .select("*", { count: "exact", head: true }),
+    supabase
+      .from("resources")
+      .select("subject"),
+    supabase
+      .from("resources")
+      .select("branch"),
+    supabase
+      .from("resources")
+      .select("downloads"),
+  ]);
 
   const uniqueSubjects = new Set(
     subjectsData?.map((item) => item.subject)
   );
 
-  const { data: branchData } = await supabase
-    .from("resources")
-    .select("branch");
-
   const uniqueBranches = new Set(
     branchData?.map((item) => item.branch)
   );
-
-  const { data: downloadsData } = await supabase
-    .from("resources")
-    .select("downloads");
 
   const downloads =
     downloadsData?.reduce(

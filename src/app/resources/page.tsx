@@ -67,8 +67,7 @@ export default async function ResourcesPage({
               <p className="text-blue-500 text-lg">
                 Showing results for:
                 <span className="font-semibold">
-                  {" "}
-                  "{searchQuery}"
+                  {" "}&quot;{searchQuery}&quot;
                 </span>
               </p>
             </div>
