@@ -34,8 +34,13 @@ export default async function ResourcesPage({
   );
 
   if (error) {
-    console.error("Error fetching resources:", error);
-  }
+  console.error("Supabase Error:", {
+    message: error.message,
+    details: error.details,
+    hint: error.hint,
+    code: error.code,
+  });
+}
 
   return (
     <>

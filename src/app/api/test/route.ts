@@ -1,7 +1,0 @@
-import { NextResponse } from "next/server";
-
-export async function GET() {
-  return NextResponse.json({
-    geminiKeyExists: !!process.env.GEMINI_API_KEY,
-  });
-}
